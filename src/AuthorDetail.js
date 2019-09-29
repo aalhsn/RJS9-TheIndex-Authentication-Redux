@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import BookTable from "./BookTable";
 import AddBookModal from "./AddBookModal";
 
-function AuthorDetail({ authors, books, match }) {
+function AuthorDetail({ authors, books, match, user }) {
   const { authorID } = match.params;
   const author = authors.find(author => author.id === +authorID);
 
@@ -28,7 +28,11 @@ function AuthorDetail({ authors, books, match }) {
         />
       </div>
       <BookTable books={authorBooks} />
-      <AddBookModal authorID={author.id} />
+      {user && (
+        <div>
+          <AddBookModal authorID={author.id} />
+        </div>
+      )}
     </div>
   );
 }
@@ -36,7 +40,8 @@ function AuthorDetail({ authors, books, match }) {
 const mapStateToProps = state => {
   return {
     authors: state.rootAuthors.authors,
-    books: state.rootBooks.books
+    books: state.rootBooks.books,
+    user: state.user
   };
 };
 
